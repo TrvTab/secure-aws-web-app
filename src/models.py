@@ -1,7 +1,7 @@
 import bcrypt
 from flask_jwt_extended import create_access_token
 import psycopg2
-from psycopg2 import pool, error as db_errors
+from psycopg2 import pool, Error as db_errors
 from configuration import Configuration
 from datetime import datetime
 
