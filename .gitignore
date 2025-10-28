@@ -1,0 +1,7 @@
+__pycache__/
+*.pem
+.env
+secrets/
+.vscode/
+.DS_Store
+venv/
