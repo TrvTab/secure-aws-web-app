@@ -1,45 +1,7 @@
 import bcrypt
 from flask_jwt_extended import create_access_token
-import psycopg2
 from psycopg2 import pool, Error as db_errors
 from configuration import Configuration
-from datetime import datetime
-
-
-# CREATE TABLE users (
-#     id SERIAL PRIMARY KEY,
-#     username VARCHAR(50) UNIQUE NOT NULL,
-#     email VARCHAR(255) UNIQUE NOT NULL,
-#     password_hash VARCHAR(255) NOT NULL,
-#     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-#     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-#     is_active BOOLEAN DEFAULT TRUE,
-#     last_login TIMESTAMP
-# );
-
-# -- Indexes for performance (queries will be faster)
-# CREATE INDEX idx_users_username ON users(username);
-# CREATE INDEX idx_users_email ON users(email);
-# CREATE INDEX idx_users_created_at ON users(created_at);
-
-
-# CREATE TABLE products (
-#     id SERIAL PRIMARY KEY,
-#     name VARCHAR(200) NOT NULL,
-#     description TEXT,
-#     price DECIMAL(10,2) NOT NULL CHECK (price >= 0),
-#     sku VARCHAR(100) UNIQUE NOT NULL,
-#     category VARCHAR(100) NOT NULL,
-#     stock_quantity INTEGER DEFAULT 0 CHECK (stock_quantity >= 0),
-#     is_available BOOLEAN DEFAULT TRUE,
-#     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-#     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-# );
-
-# -- Indexes
-# CREATE INDEX idx_products_category ON products(category);
-# CREATE INDEX idx_products_sku ON products(sku);
-# CREATE INDEX idx_products_is_available ON products(is_available);
 
 # Create pool once when module loads
 db_pool = pool.SimpleConnectionPool(
@@ -50,7 +12,6 @@ db_pool = pool.SimpleConnectionPool(
     password=Configuration.DB_PASSWORD,
     database=Configuration.DB_NAME
 )
-
 
 def hash_password(password: str) -> str:
     passwordBytes = password.encode("utf-8")

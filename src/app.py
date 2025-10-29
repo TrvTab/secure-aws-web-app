@@ -9,9 +9,14 @@ from flask_jwt_extended import JWTManager
 from configuration import Configuration
 from models import create_user, delete_user_by_id, get_all_users, get_user_by_username, get_user_by_id, hash_password, update_password, update_user_login_time, verify_password
 
-app = Flask(__name__)
+app=Flask(__name__)
 app.config.from_object(Configuration)
-jwt= JWTManager(app)
+jwt=JWTManager(app)
+
+# ALB health check endpoint
+@app.route("/healthCheck", methods=["GET"])
+def health(): 
+    return jsonify({"status":"healthy"}), 200
 
 @app.route('/api/register', methods=['POST'])
 def register():
@@ -78,6 +83,10 @@ def handle_value_error(e):
 def handle_key_error(e):
     return jsonify({"error": f"Missing field: {str(e)}"}), 400
 
+@app.errorhandler(404)
+def not_found(e):
+    return jsonify({"error": "Resource not found"}), 404
+
 @app.errorhandler(ConnectionError)
 def handle_connection_error(e):
     return jsonify({"error": "Database unavailable"}), 503
@@ -85,3 +94,7 @@ def handle_connection_error(e):
 @app.errorhandler(Exception)
 def handle_generic_error(e):
     return jsonify({"error": "Internal server error"}), 500
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)

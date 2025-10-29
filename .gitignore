@@ -5,3 +5,4 @@ secrets/
 .vscode/
 .DS_Store
 venv/
+instructions.txt
