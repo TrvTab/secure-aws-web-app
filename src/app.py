@@ -8,6 +8,7 @@ from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 from configuration import Configuration
 from models import create_user, delete_user_by_id, get_all_users, get_user_by_username, get_user_by_id, hash_password, update_password, update_user_login_time, verify_password
+import traceback
 
 app=Flask(__name__)
 app.config.from_object(Configuration)
@@ -20,14 +21,20 @@ def health():
 
 @app.route('/api/register', methods=['POST'])
 def register():
-    data = request.json
-    username = data['username']
-    email = data['email']
-    password = data['password']
-    
-    password_hash = hash_password(password)
-    user_id = create_user(username, email, password_hash)
-    return {"user_id": user_id}, 201
+    try:
+
+        data = request.json
+        username = data['username']
+        email = data['email']
+        password = data['password']
+        
+        password_hash = hash_password(password)
+        user_id = create_user(username, email, password_hash)
+        return {"user_id": user_id}, 201
+    except Exception as e:
+        print(f"Error during registration: {e}")
+        traceback.print_exc()
+        return {"error": "Internal server error", "debug": str(e)}, 500
 
 @app.route("/login", methods=["POST"])
 def login():
