@@ -22,7 +22,6 @@ def health():
 @app.route('/api/register', methods=['POST'])
 def register():
     try:
-
         data = request.json
         username = data['username']
         email = data['email']
