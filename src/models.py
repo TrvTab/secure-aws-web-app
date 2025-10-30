@@ -41,12 +41,13 @@ def create_user(username: str, passwordHash: str, email:str):
     cursor = connection.cursor()
     try:
         cursor.execute("INSERT INTO users (username, password_hash, email, created_at, updated_at) " \
-            "VALUES (%s, %s, %s, NOW(), NOW());", (username, passwordHash, email))
+            "VALUES (%s, %s, %s, NOW(), NOW()) RETURNING id;", (username, passwordHash, email))
+        result = cursor.fetchone()
+        if not result:
+            raise Exception("Failed to create user - no ID returned")
+        print(result, 'result from create user')
+        user_id = result[0]
         connection.commit()
-
-        sample = cursor.fetchone()
-        print(sample)
-        user_id = sample[0]
         return user_id
     except db_errors.UniqueViolation:
         connection.rollback()
@@ -85,6 +86,7 @@ def update_user_login_time(user_id: str):
     cursor = connection.cursor()
     try:
         cursor.execute("UPDATE users SET last_login = NOW() WHERE id = %s;", (user_id,))
+        connection.commit()
     except db_errors.OperationalError:
         connection.rollback()
         raise ConnectionError("Database unavailable")
