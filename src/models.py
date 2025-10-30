@@ -1,6 +1,6 @@
 import bcrypt
 from flask_jwt_extended import create_access_token
-from psycopg2 import pool, Error as db_errors
+from psycopg2 import pool, errors as db_errors
 from configuration import Configuration
 
 # Create pool once when module loads
