@@ -27,7 +27,7 @@ def register():
         email = data['email']
         password = data['password']
         password_hash = hash_password(password)
-        user_id = create_user(username, email, password_hash)
+        user_id = create_user(username=username, email=email, passwordHash=password_hash)
         return {"user_id": user_id}, 201
     except Exception as e:
         print(f"Error during registration: {e}")
