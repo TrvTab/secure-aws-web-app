@@ -27,7 +27,6 @@ def register():
         username = data['username']
         email = data['email']
         password = data['password']
-        
         password_hash = hash_password(password)
         user_id = create_user(username, email, password_hash)
         return {"user_id": user_id}, 201
