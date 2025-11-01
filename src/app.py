@@ -153,7 +153,7 @@ def get_my_user():
 
 
 @app.route("/api/users/me", methods=["DELETE"])
-@limiter.limit("1 per minute") 
+@limiter.limit("8 per minute") 
 @jwt_required()
 def delete_my_user():
     user_id = get_jwt_identity()

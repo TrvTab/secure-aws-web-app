@@ -110,9 +110,9 @@ def get_user_by_id(user_id: str):
     cursor = connection.cursor()
     try:
         cursor.execute(
-        "SELECT email, username, last_login, created_at, updated_at " \
-        "FROM users " \
-        "WHERE username = %s; ", (user_id,))
+            "SELECT email, username, last_login, created_at, updated_at FROM users WHERE id = %s;",
+            (user_id,)
+        )
         user = cursor.fetchone()
         return user
     except db_errors.OperationalError:
