@@ -24,8 +24,8 @@ def verify_password(password: str, hashedPassword: str) -> str:
     return bcrypt.checkpw(passwordBytes, hashBytes)
 
 
-def create_token(userId: str):
-    return create_access_token(identity=userId)
+def create_token(userId: int):
+    return create_access_token(identity=str(userId))
 
 
 def get_db_connection():

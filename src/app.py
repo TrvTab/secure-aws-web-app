@@ -8,6 +8,7 @@ from flask_jwt_extended import (
 from flask_jwt_extended.exceptions import JWTDecodeError
 from configuration import Configuration
 from models import (
+    create_token,
     create_user,
     delete_user_by_id,
     get_all_users,
@@ -123,7 +124,7 @@ def login():
         app.logger.warning("/login: Invalid password attempt for id %s from %s", user_id, request.remote_addr)
         return jsonify({"error": "Invalid credentials"}), 401
 
-    token = create_access_token(user_id)
+    token = create_token(user_id)
     update_user_login_time(user_id)
     app.logger.info("/login: User %s (id=%s) logged in successfully", username, user_id)
     return jsonify({"access_token": token, "user_id": user_id}), 200
