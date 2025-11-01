@@ -93,6 +93,7 @@ def register():
     username = data['username']
     email = data['email']
     password = data['password']
+    print("Register attempt for username:", username, email)
    
     try:
         password_hash = hash_password(password)
