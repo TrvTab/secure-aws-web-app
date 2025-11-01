@@ -99,7 +99,8 @@ def get_all_users():
     try:
         cursor.execute("SELECT username, email FROM users;")
         rows = cursor.fetchall()
-        return rows
+        users = [{"username": row[0], "email": row[1]} for row in rows]
+        return users
     except db_errors.OperationalError:
         raise ConnectionError("Database unavailable")
     finally:
