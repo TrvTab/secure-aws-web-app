@@ -85,7 +85,7 @@ def health():
 
 
 @app.route('/api/register', methods=['POST'])
-@limiter.limit("3 per minute") 
+@limiter.limit("15 per minute") 
 def register():
     app.logger.info("/api/register endpoint called by IP: %s", request.remote_addr)
     register_schema = RegisterSchema()
@@ -106,7 +106,7 @@ def register():
 
 
 @app.route("/login", methods=["POST"])
-@limiter.limit("3 per minute") 
+@limiter.limit("15 per minute") 
 def login():
     app.logger.info("/login endpoint called from IP: %s", request.remote_addr)
     login_schema = LoginSchema()

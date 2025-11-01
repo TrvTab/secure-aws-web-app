@@ -85,7 +85,7 @@ def update_user_login_time(user_id: str):
     connection = get_db_connection()
     cursor = connection.cursor()
     try:
-        cursor.execute("UPDATE users SET last_login = NOW() WHERE id = %s;", (user_id,))
+        cursor.execute("UPDATE users SET last_login = NOW() WHERE id = %s;", (user_id))
         connection.commit()
     except db_errors.OperationalError:
         connection.rollback()
@@ -124,7 +124,7 @@ def delete_user_by_id(user_id: str):
     connection = get_db_connection()
     cursor = connection.cursor()
     try:
-        cursor.execute("DELETE FROM users WHERE id = %s;", (user_id,))
+        cursor.execute("DELETE FROM users WHERE id = %s;", (user_id))
         connection.commit()
     except db_errors.OperationalError:
         raise ConnectionError("Database unavailable")
