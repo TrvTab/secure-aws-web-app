@@ -70,7 +70,7 @@ def get_user_by_username(username):
     try:
         cursor.execute(
             "SELECT id, password_hash FROM users WHERE username = %s",
-            (username)
+            (username,)
         )
         user = cursor.fetchone()
         if not user:
@@ -85,7 +85,7 @@ def update_user_login_time(user_id: str):
     connection = get_db_connection()
     cursor = connection.cursor()
     try:
-        cursor.execute("UPDATE users SET last_login = NOW() WHERE id = %s;", (user_id))
+        cursor.execute("UPDATE users SET last_login = NOW() WHERE id = %s;", (user_id,))
         connection.commit()
     except db_errors.OperationalError:
         connection.rollback()
@@ -112,7 +112,7 @@ def get_user_by_id(user_id: str):
         cursor.execute(
         "SELECT email, username, last_login, created_at, updated_at " \
         "FROM users " \
-        "WHERE username = %s; ", (user_id))
+        "WHERE username = %s; ", (user_id,))
         user = cursor.fetchone()
         return user
     except db_errors.OperationalError:
@@ -124,7 +124,7 @@ def delete_user_by_id(user_id: str):
     connection = get_db_connection()
     cursor = connection.cursor()
     try:
-        cursor.execute("DELETE FROM users WHERE id = %s;", (user_id))
+        cursor.execute("DELETE FROM users WHERE id = %s;", (user_id,))
         connection.commit()
     except db_errors.OperationalError:
         raise ConnectionError("Database unavailable")
