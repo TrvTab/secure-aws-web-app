@@ -95,7 +95,6 @@ def register():
     password = data['password']
    
     try:
-        
         password_hash = hash_password(password)
         user_id = create_user(username=username, email=email, passwordHash=password_hash)
         app.logger.info("/api/register: User %s registered successfully with ID %s", username, user_id)
@@ -113,7 +112,7 @@ def login():
     data = login_schema.load(request.json)
     username = data['username']
     password = data['password']
-
+    print("Login attempt for username:", username)
     user = get_user_by_username(username=username)
     if not user:
         app.logger.warning("/login: Login failed for unknown username: %s from %s", username, request.remote_addr)
