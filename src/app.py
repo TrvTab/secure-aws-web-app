@@ -78,6 +78,15 @@ class PasswordUpdateSchema(Schema):
     )
 
 
+@app.before_request
+def enforce_json():
+    if request.method in ['POST', 'PUT']:
+        if not request.is_json:
+            return jsonify({
+                "error": "Content-Type must be application/json"
+            }), 415
+
+
 # ALB health check endpoint
 @app.route("/healthCheck", methods=["GET"])
 def health():
