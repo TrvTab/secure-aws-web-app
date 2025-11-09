@@ -437,6 +437,8 @@ CREATE TABLE users (
 - `POST /login` - Authenticate and receive JWT token
 
 ### Protected Endpoints (Require JWT)
+- `GET /api/users` - Get all user names and emails
 - `GET /api/users/me` - Get current user information
 - `PUT /api/users/me/password` - Update user password
 - `DELETE /api/users/me` - Delete user account
+
