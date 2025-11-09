@@ -116,7 +116,7 @@ def register():
 
 
 @app.route("/login", methods=["POST"])
-@limiter.limit("15 per minute") 
+@limiter.limit("5 per minute") 
 def login():
     app.logger.info("/login endpoint called from IP: %s", request.remote_addr)
     login_schema = LoginSchema()
@@ -159,7 +159,13 @@ def get_my_user():
     if not user:
         app.logger.warning("GET /api/users/me: User not found for id=%s", user_id)
         return jsonify({"error": "User not found"}), 404
-    return jsonify(user), 200
+    return jsonify({
+        "email": user[0],
+        "username": user[1],
+        "last_login": user[2],
+        "created_at": user[3],
+        "updated_at": user[4]
+    }), 200
 
 
 @app.route("/api/users/me", methods=["DELETE"])
